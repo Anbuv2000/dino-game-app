@@ -20,9 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./dino-game-app
 
       - name: Build React app
         run: npm run build
+        working-directory: ./dino-game-app
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
