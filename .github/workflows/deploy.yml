@@ -22,12 +22,10 @@ jobs:
         run: npm install
         working-directory: ./dino-game
 
-      - name: Disable CI mode
-        run: unset CI
-        working-directory: ./dino-game
-
-      - name: Build React app
-        run: npm run build
+      - name: Build React app (CI disabled)
+        run: |
+          unset CI
+          npm run build
         working-directory: ./dino-game
 
       - name: Configure AWS credentials
