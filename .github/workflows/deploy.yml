@@ -50,7 +50,7 @@ jobs:
 
       - name: Copy new build to EC2
         run: |
-          scp -i key.pem -o StrictHostKeyChecking=no -r build/* ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/var/www/html/dino-game-app/dino-game
+          scp -i key.pem -o StrictHostKeyChecking=no -r ./dino-game/build/* ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/var/www/html/dino-game-app/dino-game
 
       - name: Restart app on EC2
         run: |
