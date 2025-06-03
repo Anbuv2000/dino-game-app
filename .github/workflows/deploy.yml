@@ -40,10 +40,14 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
           chmod 600 key.pem
 
-      - name: Copy build to EC2
+      - name: Clean old build on EC2
         run: |
-          scp -i key.pem -r build/* ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ubuntu/react-app/build
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "rm -rf /home/ubuntu/react-app/build && mkdir -p /home/ubuntu/react-app/build"
+
+      - name: Copy new build to EC2
+        run: |
+          scp -i key.pem -o StrictHostKeyChecking=no -r build/* ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ubuntu/react-app/build
 
       - name: Restart app on EC2
         run: |
-          ssh -i key.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pm2 restart react-app"
+          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "pm2 restart react-app"
